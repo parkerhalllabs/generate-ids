@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Generate IDs</title>
+  <!-- <link rel="stylesheet" href="/ignore_me.css"> -->
+</head>
+
+<body>
+  <form onsubmit="download(this['name'].value, this['prefix'].value, this['total_length'].value, this['num_ids'].value)">
+    <div>File Name:</div>
+    <input type="text" name="name" value="test.csv"><br>
+    <div>ID prefix:</div>
+    <input type="text" name="prefix" value="3hd.us/"><br>
+    <div>Total Length:</div>
+    <input type="number" name="total_length" value="32"><br>
+    <div>Number of IDs to Generate:</div>
+    <input type="number" name="num_ids" value="5"><br>
+    <input type="submit" value="Download" class="download">
+  </form>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+    }
+
+    form {
+      display: flex;
+      margin: 10px;
+      justify-content: space-around;
+      flex-direction: column;
+      font-family: arial;
+      align-items: ;
+    }
+
+
+    form input {
+      max-width: 300px;
+      margin-top: 5px;
+    }
+
+    .download {
+      width: 100px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      color: white;
+      background-color: #4287f5;
+      border-radius: 5px;
+      border-color: #0251cf;
+      border-style: solid;
+    }
+
+    .download:hover {
+      background-color: #6d9eed;
+      border-color: #6d9eed;
+    }
+  </style>
+  <script>
+    function download(filename, prefix, total_length, num_ids) {
+      function makeid(prefix, total_length, num_ids) {
+        let uuids = [];
+        const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var i = 0; i < num_ids; i++) {
+          let text = prefix;
+          for (var j = 0; j < (total_length - prefix.length); j++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+          }
+          uuids.push(text)
+        }
+        return uuids.join().replace(/,/g, "\n");
+      }
+      let text = makeid(prefix, total_length, num_ids);
+      let element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+    }
+  </script>
+</body>
+
+</html>
